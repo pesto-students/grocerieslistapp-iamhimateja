@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Walter White",
+    "goceryListName": "Pseudo",
+    "goceryList": [{
+      "name": "Polish Remover for Acetone",
+      "quantity": "100 units"
+    }, {
+      "name": "Household Cleaners (Anhydrous ammonia)",
+      "quantity": "100 units"
+    }, {
+      "name": "Wet-on-wet Dry cleaners (For Hydrochloric acid)",
+      "quantity": "50 cans"
+    }, {
+      "name": "Castrol Brake Fluid (Toluene)",
+      "quantity": "100 units"
+    }, {
+      "name": "Diamond Long Reach Matches 75 Count (For Phosphorous)",
+      "quantity": "250 units"
+    }]
+  },
+  {
+    "name": "Jesse Pinkman.",
+    "goceryListName": "Glass",
+    "goceryList": [{
+      "name": "Perfumes, Lipsticks etc (for Ether)",
+      "quantity": "Handful"
+    }, {
+      "name": "Air conditioning gas replacement (for Freon)",
+      "quantity": "500 Gallons"
+    }, {
+      "name": "Redbull Energy drink",
+      "quantity": "2000 units"
+    }, {
+      "name": "Odyssey PC680 Battery (For Lithium)",
+      "quantity": "10 units"
+    }]
+  }
+]

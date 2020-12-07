@@ -10,27 +10,36 @@ body * {
 
 /* Helpers */
 
-.pull-right {
-  float: right;
+.text-right {
+  text-align: right;
 }
 
-.pull-left {
-  float: left: 
+.text-left {
+  text-align: left: 
 }
 
-#login {
+#login, #grocery-list-wrapper {
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+#login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 600px;
   height: 350px;
   padding: 30px;
   border-radius: 5px;
   background: #0058ff;
+  z-index: 1;
+  transition: all 0.5s cubic-bezier(1, -0.01, 0, 1.01);
+}
+
+#login.close {
+  top: -350px;
 }
 
 .section-header {
@@ -78,4 +87,100 @@ body * {
   letter-spacing: 2px;
   font-size: 1.5rem;
   text-indent: 30px;
+}
+
+#grocery-list-wrapper {
+  width: 900px;
+  height: 100%;
+}
+
+#grocery-list-wrapper .navigation {
+  position: sticky;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  height: 5em;
+  padding: 0 20px;
+  box-shadow: 0px 2px 0 0 #0259ff;
+}
+
+#grocery-list-wrapper .navigation #currrent-user-name, #grocery-list-wrapper .navigation #logout {
+  position: relative;
+  flex: 1;
+  align-self: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #0058ff;
+}
+
+#grocery-list-wrapper .navigation #currrent-user-name::after {
+  position: absolute;
+  content: "Grocery List";
+  font-size: 0.5rem;
+  left: 0;
+  bottom: -15px;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+#grocery-list-wrapper .navigation #logout .icon {
+  padding: 10px;
+  cursor: pointer;
+}
+
+#grocery-list-wrapper #new-item-form {
+  position: absolute;
+  display: flex;
+  bottom: 30px;
+  width: 100%;
+  height: auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#grocery-list-wrapper #new-item-form .textarea-wrap {
+  position: relative;
+  display: flex;
+}
+
+#grocery-list-wrapper #new-item-form .textarea-wrap #item-name {
+  flex: 1;
+  border: 0;
+  font-size: initial;
+  box-shadow: 0 0 0 1px #d0d0d0;
+  border-radius: 3px;
+  padding: 15px;
+  padding-right: 50px;
+  outline: none;
+}
+
+#grocery-list-wrapper #new-item-form .textarea-wrap #item-name:focus {
+  box-shadow: 0 0 0 2px #0058ff;
+}
+
+#grocery-list-wrapper #new-item-form .textarea-wrap #add-item {
+  position: absolute;
+  border: 0;
+  font-size: 1.5rem;
+  background: #fff;
+  color: #0058ff;
+  box-shadow: 0 0 0 2px #0058ff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  line-height: 0.9;
+  top: 50%;
+  left: calc(100% - 25px);
+  transform: translate(-50%, -50%);
+  outline: none;
+  cursor: pointer;
+}
+
+#grocery-list-wrapper #new-item-form .textarea-wrap #add-item:hover,
+#grocery-list-wrapper #new-item-form .textarea-wrap #add-item:focus {
+  background: #0058ff;
+  color: #fff;
+  box-shadow: none;
 }

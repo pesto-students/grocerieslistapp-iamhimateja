@@ -1,3 +1,6 @@
+<!-- TODO: Show input quantity input -->
+<!-- TODO: Grocery List view -->
+<!-- Loading animations for faking server interaction -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,13 +10,28 @@
 </head>
 <body>
   <section id="login">
-    <h2 class="section-header">Grocery List App</h2>
+    <h2 class="section-header">Grocery List</h2>
     <h5 class="sub-header">Please enter your name to continue</h5>
     <div class="form">
-      <input type="text" id="username">
-      <span class="icon">↵</span>
+      <input type="text" id="username" autofocus="true" autocomplete="off">
+      <span class="icon">&crarr;</span>
     </div>
-    <span class="info pull-right">* Press Enter ↵ to submit.</span>
+    <span class="info pull-right">Press Enter &crarr; to submit.</span>
+  </section>
+  <section id="grocery-list-wrapper">
+    <div class="navigation">
+      <span id="currrent-user-name"></span>
+      <div id="logout" class="text-right">
+        <span class="icon">&#9211;</span>
+      </div>
+    </div>
+    <div id="groceries-list"></div>
+    <div id="new-item-form">
+      <div class="textarea-wrap">
+        <input type="text" id="item-name" placeholder="Type the name of the item" autocomplete="off">
+        <button id="add-item">&#43;</button>
+      </div>
+    </div>
   </section>
   <script type="text/javascript" src="scripts/app.js"></script>
 </body>
