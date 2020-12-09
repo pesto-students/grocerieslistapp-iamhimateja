@@ -15,6 +15,7 @@ function App(maxItems) {
           if (!groupedData[element.name]) {
             groupedData[element.name] = {
               name: element.name,
+              password: element.password,
               groceryList: {}
             };
             element.groceryList.forEach(function (groceryItem, index) {
@@ -48,7 +49,7 @@ function App(maxItems) {
 
   $this.LogIn = (username) => {
     sessionStorage.setItem("currentUser", username);
-    document.getElementById("currrent-user-name").innerHTML = `${
+    document.getElementById("current-user-name").innerHTML = `${
       $this.currentUser().name
     }'s`;
     $this.addGroceryItemsToUI();
@@ -64,6 +65,7 @@ function App(maxItems) {
     let data = $this.users();
     data[username] = {
       name: username,
+      password: false,
       groceryList: []
     };
     localStorage.setItem("users", JSON.stringify(data));
@@ -82,9 +84,34 @@ function App(maxItems) {
     }
   };
 
+  $this.togglePasswordPromptUI = (username, toggle = "open") => {
+    switch (toggle) {
+      case "open":
+        passwordPromptContainer.querySelector(".attempter-user-name").innerHTML = username
+        passwordPromptContainer.querySelector(".attempter-user-name").setAttribute('data-user', username);
+        loginContainer.classList.add("password-verification-in-progress");
+        passwordPromptContainer.classList.remove("close");
+        break;
+      case "close":
+        passwordPromptContainer.querySelector(".attempter-user-name").innerHTML = ''
+        passwordPromptContainer.classList.add("close");
+        loginContainer.classList.remove("password-verification-in-progress");
+        passwordPromptContainer.querySelector(".attempter-user-name").removeAttribute('data-user')
+        break;
+    }
+  }
+
   $this.addGroceryItemsToUI = () => {
     const groceryList = $this.currentUser().groceryList;
-    groceriesListElement.innerHTML = "";
+    const groceryListItems = groceriesListElement.querySelectorAll('li:not(.empty-message)');
+    if(groceryListItems) {
+      groceryListItems.forEach(listElement => listElement.parentNode.removeChild(listElement));
+    }
+    if (Object.keys(groceryList).length == 0) {
+      groceriesListElement.querySelector('li.empty-message').classList.remove("hide")
+    } else {
+      groceriesListElement.querySelector('li.empty-message').classList.add("hide")
+    }
     for (let key in groceryList) {
       $this.addGroceryItemAndBindEvents(key, groceryList[key]);
     }
@@ -198,24 +225,45 @@ function App(maxItems) {
     }
     localStorage.setItem("users", JSON.stringify(usersList));
   };
+
+  $this.toggleSettingsUI = (toggle = "open") => {
+    switch (toggle) {
+      case "open":
+        userSettingsElement.classList.remove("close");
+        groceryScreen.classList.add("blurred")
+        break;
+      case "close":
+        userSettingsElement.classList.add("close");
+        groceryScreen.classList.remove("blurred")
+        break;
+    }
+  }
 }
 
 window.addEventListener("load", function () {
   const app = new App(5);
   console.log(app.currentUser());
   window.loginContainer = document.getElementById("login");
+  window.passwordPromptContainer = document.getElementById("login-step-2");
   window.groceryScreen = document.getElementById("grocery-list-wrapper");
   window.groceriesListElement = document.getElementById("groceries-list");
-  const usernameInput = document.getElementById("username");
-  usernameInput.addEventListener("keyup", function (event) {
+  window.userSettingsElement = document.getElementById("user-settings")
+
+  document.getElementById("username").addEventListener("keyup", function (event) {
     if (event.keyCode === 13) {
       if (this.value.length == 0) {
         console.log("Name is not valid");
       } else {
-        if (app.findUser(this.value)) {
-          app.LogIn(this.value);
-          app.toggleLoginScreen("close");
-          app.toggleGroceryScreen("open");
+        const foundUser = app.findUser(this.value);
+        if (foundUser) {
+          if (foundUser.password) {
+            console.log("password need to continue");
+            app.togglePasswordPromptUI(this.value, "open")
+          } else {
+            app.LogIn(this.value);
+            app.toggleLoginScreen("close");
+            app.toggleGroceryScreen("open");
+          }
         } else {
           app.createNewUserAndLogIn(this.value);
           app.toggleLoginScreen("close");
@@ -225,6 +273,28 @@ window.addEventListener("load", function () {
     }
   });
 
+  document.getElementById("password").addEventListener("keyup", function (event) {
+    if (event.keyCode === 13) {
+      if (this.value.length == 0) {
+        console.log("Please enter the password");
+      } else {
+        const userInputPassword = this.value;
+        const attemptingUser = passwordPromptContainer.querySelector(".attempter-user-name").dataset.user;
+        const user = app.findUser(attemptingUser);
+        if (user) {
+          if (userInputPassword == window.atob(user.password)) {
+            app.togglePasswordPromptUI(attemptingUser, "close")
+            app.LogIn(user.name);
+            app.toggleLoginScreen("close");
+            app.toggleGroceryScreen("open");
+          } else {
+            console.log('Incorrect');
+          }
+        }
+      }
+    }
+  })
+
   document
     .getElementById("item-name")
     .addEventListener("keyup", function (event) {
@@ -232,6 +302,21 @@ window.addEventListener("load", function () {
         document.getElementById("add-item").click();
       }
     });
+
+  document
+    .getElementById("settings-password-confirmation")
+    .addEventListener("keyup", function (event) {
+      const passwordInput =  document.getElementById("settings-password");
+      if ((passwordInput.value != "")) {
+        if (passwordInput.value != this.value) {
+          this.classList.add("has-error")
+          this.classList.remove("no-error")
+        } else {
+          this.classList.remove("has-error")
+          this.classList.add("no-error")
+        }
+      }
+    })
 
   document
     .getElementById("add-item")
@@ -245,9 +330,47 @@ window.addEventListener("load", function () {
       }
     });
 
+  document.getElementById("change-password").addEventListener("click", function(event) {
+    app.toggleSettingsUI('open')
+  })
+
+  document.getElementById("close-user-settings").addEventListener("click", function(event) {
+    app.toggleSettingsUI('close')
+  })
+
   document.getElementById("logout").addEventListener("click", function (event) {
     app.LogOut();
   });
+
+  document.querySelectorAll(".password-peek .emoji").forEach(peekElement => {
+    peekElement.addEventListener("click", function (event) {
+      const parentElement = this.parentElement;
+      switch (parentElement.dataset.status) {
+        case "open":
+          parentElement.querySelector('.emoji.closed').classList.add("show")
+          parentElement.querySelector('.emoji.open').classList.remove("show")
+          parentElement.setAttribute("data-status", "closed")
+          parentElement.previousElementSibling.setAttribute("type", "password")
+          break;
+        case "closed":
+          parentElement.querySelector('.emoji.closed').classList.remove("show")
+          parentElement.querySelector('.emoji.open').classList.add("show")
+          parentElement.setAttribute("data-status", "open")
+          parentElement.previousElementSibling.setAttribute("type", "text")
+          break;
+      }
+    });
+  });
+
+  document.getElementById("menu-trigger").addEventListener("click", function (event) {
+    if (this.classList.contains('opened')) {
+      this.classList.remove('opened')
+      document.getElementById("settings-menu").classList.remove('opened')
+    } else {
+      this.classList.add('opened')
+      document.getElementById("settings-menu").classList.add('opened')
+    }
+  })
 
   if (app.currentUser()) {
     app.toggleLoginScreen("close");

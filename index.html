@@ -1,4 +1,3 @@
-<!-- TODO: Grocery List view -->
 <!-- Loading animations for faking server interaction -->
 <!DOCTYPE html>
 <html>
@@ -9,28 +8,89 @@
   <link rel="stylesheet" href="styles/app.css">
 </head>
 <body>
-  <section id="login" class="close">
+<!--   <section id="breaking-bad" class="modal close">
+    
+  </section> -->
+  <section id="login" class="modal close">
     <h2 class="section-header">Grocery List</h2>
     <h5 class="sub-header">Please enter your name to continue</h5>
     <div class="form">
-      <input type="text" id="username" autofocus="true" autocomplete="off">
+      <input type="text" id="username" autofocus="true" autocomplete="off" class="form-control">
       <span class="icon">&crarr;</span>
     </div>
     <span class="info pull-right">Press Enter &crarr; to submit.</span>
   </section>
+  <section id="login-step-2" class="modal close">
+    <h2 class="section-header">Hi <span class="attempter-user-name"></span></h2>
+    <h5 class="sub-header">Your grocery list is password protected, please enter your password to continue</h5>
+    <div class="form">
+      <input type="password" id="password" class="form-control">
+      <span class="icon">&crarr;</span>
+    </div>
+    <span class="info pull-right">Press Enter &crarr; to submit.</span>
+  </section>
+  <section id="user-settings" class="modal close">
+    <header class="modal-header">
+      Settings
+      <span class="close-icon" id="close-user-settings">&times;</span>
+    </header>
+    <h2 class="sub-header">Please update your password, You'll be prompted for password from next login attempt.</h2>
+    <div class="settings-form">
+      <label>Password</label>
+      <div class="form-wrap">
+        <input type="password" id="settings-password" class="form-control">
+        <div class="icon password-peek" data-status="closed">
+          <span class="emoji open">&#128064;</span>
+          <span class="emoji closed show">&#128529;</span>
+        </div>
+      </div>
+      <label>Confirmation</label>
+      <div class="form-wrap">
+        <input type="password" id="settings-password-confirmation" class="form-control">
+        <div class="icon password-peek" data-status="closed">
+          <span class="emoji open">&#128064;</span>
+          <span class="emoji closed show">&#128529;</span>
+        </div>
+      </div>
+      <button class="save-password text-right">Save Password</button>
+    </div>
+  </section>
   <section id="grocery-list-wrapper">
     <div class="navigation">
-      <span id="currrent-user-name"></span>
-      <div id="logout" class="text-right">
-        <span class="icon">&#9211;</span>
+      <span id="current-user-name"></span>
+      <div id="settings-area" class="text-right">
+        <span id="logout" class="icon" title="Logout">&#9211;</span>
       </div>
     </div>
-    <ul id="groceries-list"></ul>
+    <ul id="groceries-list">
+      <li class="empty-message">You know you can add an item from down below. Just there..👇</li>
+    </ul>
     <div id="new-item-form">
       <div class="textarea-wrap">
         <input type="text" id="item-name" placeholder="Type the name of the item" autocomplete="off">
-        <button id="add-item">&#43;</button>
+        <input type="text" id="item-quantity" placeholder="Quantity" autocomplete="off" value="1">
+        <button id="add-item">
+          <span class="icon">&times;</span>
+        </button>
       </div>
+      <button id="menu-trigger">
+        <span class="dots">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </span>
+      </button>
+      <ul id="settings-menu">
+        <li>
+          <a href="#0" id="change-password">Change Password</a>
+        </li>
+        <li>
+          <a href="#0">Delete all completed items</a>
+        </li>
+        <li>
+          <a href="#0">Delete all items</a>
+        </li>
+      </ul>
     </div>
   </section>
   <script type="text/javascript" src="scripts/app.js"></script>

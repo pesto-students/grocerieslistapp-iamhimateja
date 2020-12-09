@@ -1,6 +1,7 @@
 [
   {
     "name": "Walter White",
+    "password": false,
     "groceryList": [
       {
         "itemName":"Polish Remover for Acetone",
@@ -26,6 +27,7 @@
   },
   {
     "name": "Jesse Pinkman",
+    "password": "Yml0Y2g=",
     "groceryList": [
       {
         "itemName":"Perfumes, Lipsticks etc (for Ether)",
