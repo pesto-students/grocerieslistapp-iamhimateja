@@ -1,15 +1,15 @@
-<!-- TODO: Show input quantity input -->
 <!-- TODO: Grocery List view -->
 <!-- Loading animations for faking server interaction -->
 <!DOCTYPE html>
 <html>
 <head>
   <title>Grocry list app</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="stylesheet" href="styles/app.css">
 </head>
 <body>
-  <section id="login">
+  <section id="login" class="close">
     <h2 class="section-header">Grocery List</h2>
     <h5 class="sub-header">Please enter your name to continue</h5>
     <div class="form">
@@ -25,7 +25,7 @@
         <span class="icon">&#9211;</span>
       </div>
     </div>
-    <div id="groceries-list"></div>
+    <ul id="groceries-list"></ul>
     <div id="new-item-form">
       <div class="textarea-wrap">
         <input type="text" id="item-name" placeholder="Type the name of the item" autocomplete="off">

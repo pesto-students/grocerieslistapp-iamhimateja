@@ -3,9 +3,18 @@
 
 body {
   font-size: .875rem;
+  overflow: hidden;
 }
+
 body * {
   font-family: IBM Plex Sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif !important;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select:none;
+  box-sizing: border-box;
+  transition: all 0.5s cubic-bezier(1, -0.01, 0, 1.01);
 }
 
 /* Helpers */
@@ -35,11 +44,13 @@ body * {
   border-radius: 5px;
   background: #0058ff;
   z-index: 1;
-  transition: all 0.5s cubic-bezier(1, -0.01, 0, 1.01);
 }
 
 #login.close {
-  top: -350px;
+  transform: translate(-50%, -50%) scale(0.5);
+  filter: blur(15px);
+  opacity: 0;
+  visibility: hidden;
 }
 
 .section-header {
@@ -92,6 +103,17 @@ body * {
 #grocery-list-wrapper {
   width: 900px;
   height: 100%;
+  transform: translate(-50%, -50%) scale(1.3);
+  filter: blur(15px);
+  opacity: 0;
+  visibility: hidden;
+}
+
+#grocery-list-wrapper.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%);
+  filter: none;
 }
 
 #grocery-list-wrapper .navigation {
@@ -99,7 +121,6 @@ body * {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 100%;
   height: 5em;
   padding: 0 20px;
   box-shadow: 0px 2px 0 0 #0259ff;
@@ -133,7 +154,7 @@ body * {
 #grocery-list-wrapper #new-item-form {
   position: absolute;
   display: flex;
-  bottom: 30px;
+  bottom: 10px;
   width: 100%;
   height: auto;
   flex-direction: column;
@@ -183,4 +204,84 @@ body * {
   background: #0058ff;
   color: #fff;
   box-shadow: none;
+}
+
+ul#groceries-list {
+  margin-top: 15px;
+}
+
+#groceries-list label {
+  padding: 15px;
+  display: block;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-radius: 3px;
+}
+
+#groceries-list label:hover {
+  box-shadow: 0 0 0 5px white, 0 0 0 6px #0058ff;
+  transform: scale(1.01);
+}
+
+#groceries-list label span {
+  margin-left: 10px;
+}
+
+#groceries-list .grocery-list-item.completed label span {
+  text-decoration: line-through;
+  text-decoration-color: rgba(0, 88, 255, 0.63);
+  text-decoration-style: double;
+}
+
+#groceries-list .grocery-list-item {
+  position: relative;
+}
+
+#groceries-list .grocery-list-item .action-buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 12px;
+  text-align: right;
+}
+
+#groceries-list .grocery-list-item .action-buttons button.btn {
+  border: 0;
+  padding: 3px 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #fff;
+  text-align: center;
+  outline: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+#groceries-list .grocery-list-item .action-buttons button.btn.edit {
+  background: #0058ff;
+  margin-right: 10px;
+}
+
+.grocery-list-item.completed .action-buttons button.btn.edit {
+  opacity: 0;
+  visibility: hidden;
+}
+
+#groceries-list .grocery-list-item .action-buttons button.btn.edit:hover {
+  background: #fff;
+  color: #0058ff;
+  box-shadow: 0 0 0 1px #0058ff;
+}
+
+#groceries-list .grocery-list-item .action-buttons button.btn.delete {
+  background: #de0505;
+}
+
+#groceries-list .grocery-list-item .action-buttons button.btn.delete:hover {
+  background: #fff;
+  color: #de0505;
+  box-shadow: 0 0 0 1px #de0505;
 }
