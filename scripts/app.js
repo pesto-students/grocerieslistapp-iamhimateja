@@ -66,7 +66,7 @@ function App(maxItems) {
     data[username] = {
       name: username,
       password: false,
-      groceryList: []
+      groceryList: {}
     };
     localStorage.setItem("users", JSON.stringify(data));
     $this.LogIn(username);
@@ -107,21 +107,29 @@ function App(maxItems) {
     if(groceryListItems) {
       groceryListItems.forEach(listElement => listElement.parentNode.removeChild(listElement));
     }
-    if (Object.keys(groceryList).length == 0) {
-      groceriesListElement.querySelector('li.empty-message').classList.remove("hide")
-    } else {
-      groceriesListElement.querySelector('li.empty-message').classList.add("hide")
-    }
+
     for (let key in groceryList) {
-      $this.addGroceryItemAndBindEvents(key, groceryList[key]);
+      $this.addGroceryItemToUIAndBindEvents(key, groceryList[key]);
     }
+
+    $this.toggleEmptyMessage()
   };
 
-  $this.addGroceryItemAndBindEvents = (id, groceryItem) => {
+  $this.toggleEmptyMessage = () => {
+    const emptyMessageDiv = groceriesListElement.querySelector("li.empty-message")
+    if (groceriesListElement.querySelectorAll("li:not(.empty-message)").length == 0) {
+      emptyMessageDiv.classList.remove("hide")
+    } else {
+      emptyMessageDiv.classList.add("hide")
+    }
+  }
+
+  $this.addGroceryItemToUIAndBindEvents = (id, groceryItem) => {
     let listElement = document.createElement("li");
     let listLabel = document.createElement("label");
     let listLabelCheckBox = document.createElement("input");
     let listLabelNameElement = document.createElement("span");
+    let listLabelQuantityElement = document.createElement("span");
     let actionButtonsWrap = document.createElement("div");
     let editButton = document.createElement("button");
     let deleteButton = document.createElement("button");
@@ -131,12 +139,14 @@ function App(maxItems) {
     listLabelCheckBox.name = "groceryItem";
     listLabelCheckBox.value = id;
     listLabelNameElement.classList += "item-name";
+    listLabelQuantityElement.classList.add("item-quantity")
     actionButtonsWrap.classList += "action-buttons";
     editButton.classList += "btn edit";
     deleteButton.classList += "btn delete";
     editButton.setAttribute("data-id", id);
     deleteButton.setAttribute("data-id", id);
     listLabelNameElement.innerHTML = groceryItem.itemName;
+    listLabelQuantityElement.innerHTML = groceryItem.quantity;
     editButton.innerHTML = "Edit";
     deleteButton.innerHTML = "Delete";
     if (groceryItem.completed) {
@@ -145,11 +155,14 @@ function App(maxItems) {
     }
     listLabel.append(listLabelCheckBox);
     listLabel.append(listLabelNameElement);
+    listLabel.append(listLabelQuantityElement);
     listElement.append(listLabel);
     actionButtonsWrap.append(editButton);
     actionButtonsWrap.append(deleteButton);
     listElement.append(actionButtonsWrap);
     groceriesListElement.append(listElement);
+    
+    $this.toggleEmptyMessage()
 
     listElement
       .querySelector("input[type='checkbox']")
@@ -190,12 +203,12 @@ function App(maxItems) {
       itemName: itemName,
       completed: false
     };
-    let currentUser = $this.currentUser();
     let usersList = $this.users();
+    let currentUser = usersList[$this.currentUser().name];
     let itemKey = randomKey();
     usersList[currentUser.name].groceryList[itemKey] = itemObject;
     localStorage.setItem("users", JSON.stringify(usersList));
-    $this.addGroceryItemAndBindEvents(itemKey, itemObject);
+    $this.addGroceryItemToUIAndBindEvents(itemKey, itemObject);
   };
 
   $this.deleteGroceryItem = (itemKey) => {
@@ -214,6 +227,7 @@ function App(maxItems) {
       ".grocery-list-item[data-id='" + itemKey + "']"
     );
     groceryItem.remove();
+    $this.toggleEmptyMessage()
   };
 
   $this.toggleGroceryItemCompletedStatus = (checked, itemKey) => {
@@ -296,14 +310,6 @@ window.addEventListener("load", function () {
   })
 
   document
-    .getElementById("item-name")
-    .addEventListener("keyup", function (event) {
-      if (event.keyCode === 13) {
-        document.getElementById("add-item").click();
-      }
-    });
-
-  document
     .getElementById("settings-password-confirmation")
     .addEventListener("keyup", function (event) {
       const passwordInput =  document.getElementById("settings-password");
@@ -317,6 +323,14 @@ window.addEventListener("load", function () {
         }
       }
     })
+
+  document
+    .getElementById("item-name")
+    .addEventListener("keyup", function (event) {
+      if (event.keyCode === 13) {
+        document.getElementById("add-item").click();
+      }
+    });
 
   document
     .getElementById("add-item")

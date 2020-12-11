@@ -279,6 +279,26 @@ ul#groceries-list {
   width: 70%;
 }
 
+#groceries-list label span.item-name {
+  flex: 2
+}
+
+#groceries-list label span.item-quantity {
+  position: relative;
+  flex: 1;
+  letter-spacing: 2px;
+}
+
+#groceries-list label span.item-quantity::before {
+  content: "×";
+  position: absolute;
+  left: -20px;
+  top: -5px;
+  color: #0259ff;
+  font-size: 1.5em;
+  font-weight: normal;
+}
+
 #groceries-list .grocery-list-item.completed label span {
   text-decoration: line-through;
   text-decoration-color: rgba(0, 88, 255, 0.63);
