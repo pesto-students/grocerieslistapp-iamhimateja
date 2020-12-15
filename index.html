@@ -1,4 +1,3 @@
-<!-- Loading animations for faking server interaction -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,11 +6,39 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="stylesheet" href="styles/app.css">
 </head>
-<body>
-<!--   <section id="breaking-bad" class="modal close">
-    
-  </section> -->
+<body class="content-is-loading">
+  <div class="loading-wrap">
+    <div class="loader"></div>
+  </div>
+  <div id="breaking-bad" class="closed">
+    <h2 class="bad-header">Welcome to Simple Grocery list app</h2>
+    <h3 class="bad-sub-header">Please select a charecter to continue.</h3>
+    <div id="breaking-bad-actors">
+      <div class="actor" id="walter-white" data-username="Walter White">
+        <div class="gif-holder"></div>
+        <div class="actor-details">
+          <h2>Walter White</h2>
+          <span>(Password: <span class="charecter-password">heisenberg</span>)</span>
+        </div>
+      </div>
+      <div class="actor" id="jesse-pinkman" data-username="Jesse Pinkman">
+        <div class="gif-holder"></div>
+        <div class="actor-details">
+          <h2>Jesse Pinkman</h2>
+          <span>(Password: <span class="charecter-password">biyatch</span>)</span>
+        </div>
+      </div>
+      <div class="actor" id="normal-user">
+        <div class="gif-holder"></div>
+        <div class="actor-details">
+          <h2>I'll do it myself.</h2>
+          <span>(Password: You can set it inside)</span>
+        </div>
+      </div>
+    </div>
+  </div>
   <section id="login" class="modal close">
+    <span class="go-back" data-target="home">&times;</span>
     <h2 class="section-header">Grocery List</h2>
     <h5 class="sub-header">Please enter your name to continue</h5>
     <div class="form">
@@ -21,6 +48,7 @@
     <span class="info pull-right">Press Enter &crarr; to submit.</span>
   </section>
   <section id="login-step-2" class="modal close">
+    <span class="go-back" data-target="login">&times;</span>
     <h2 class="section-header">Hi <span class="attempter-user-name"></span></h2>
     <h5 class="sub-header">Your grocery list is password protected, please enter your password to continue</h5>
     <div class="form">
@@ -55,6 +83,19 @@
       <button class="save-password text-right">Save Password</button>
     </div>
   </section>
+  <div id="edit-form" class="modal close">
+    <header class="modal-header">
+      Edit item
+      <span class="close-icon" id="close-item-edit-form">&times;</span>
+    </header>
+    <div class="edit-item-form">
+      <label>Item name</label>
+      <input type="text" class="form-control" id="edit-item-name-input" placeholder="Type the name of the item">
+      <label>Quantity</label>
+      <input type="number" class="form-control" id="edit-item-quantity-input" placeholder="Quantity">
+      <button id="edit-item-button" class="text-right">Update</button>
+    </div>
+  </div>
   <section id="grocery-list-wrapper">
     <div class="navigation">
       <span id="current-user-name"></span>
@@ -63,12 +104,12 @@
       </div>
     </div>
     <ul id="groceries-list">
-      <li class="empty-message">You know you can add an item from down below. Just there..👇</li>
+      <li class="empty-message">You know you can add an item from down below. right there..👇</li>
     </ul>
     <div id="new-item-form">
       <div class="textarea-wrap">
         <input type="text" id="item-name" placeholder="Type the name of the item" autocomplete="off">
-        <input type="text" id="item-quantity" placeholder="Quantity" autocomplete="off" value="1">
+        <input type="number" id="item-quantity" placeholder="Quantity" autocomplete="off" value="1" min="1">
         <button id="add-item">
           <span class="icon">&times;</span>
         </button>

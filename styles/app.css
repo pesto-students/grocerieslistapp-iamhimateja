@@ -1,12 +1,11 @@
 @import url('reset.css');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed&family=IBM+Plex+Sans:wght@100;400;700&display=swap');
-
 body {
   position: fixed;
   height: 100%;
   width: 100%;
   font-size: .875rem;
-  overflow: hidden;
+  background: #fff;
 }
 
 body * {
@@ -19,6 +18,7 @@ body * {
   transition: all 0.5s cubic-bezier(1, -0.01, 0, 1.01);
 }
 
+
 /* Helpers */
 
 .text-right {
@@ -26,32 +26,184 @@ body * {
 }
 
 .text-left {
-  text-align: left: 
+  text-align: left:
 }
 
-/* #grocery-list-wrapper {
-  position: absolute;
+.hide {
+  display: none;
+}
+
+#login,
+#login-step-2 {
+  height: 400px;
+}
+
+.content-is-loading *:not(.loading-wrap):not(.loader) {
+  display: none;
+}
+
+.content-is-loading .loading-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 3;
+}
+
+.content-is-loading .loading-wrap .loader {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-} */
-
-#login, #login-step-2 {
-  height: 350px;
-  background: #0058ff;
+  background: #b9b9b9;
+  box-shadow: -15px 0 0 0 #006dff, 15px 0 0 0 #b9b9b9;
+  -webkit-animation: loading 1s linear infinite;
+  -moz-animation: loading 1s linear infinite;
+  animation: loading 1s linear infinite;
 }
 
-#login.close, 
-#login-step-2.close, 
-#user-settings.close {
-  transform: translate(-50%, -50%) scale(0.5);
-  filter: blur(15px);
+@keyframes loading {
+  33% {
+    background: #006dff;
+    box-shadow: -15px 0 0 0 #b9b9b9, 15px 0 0 0 #b9b9b9;
+  }
+  66% {
+    background: #b9b9b9;
+    box-shadow: -15px 0 0 0 #b9b9b9, 15px 0 0 0 #006dff;
+  }
+  99% {
+    background: #b9b9b9;
+    box-shadow: -15px 0 0 0 #006dff, 15px 0 0 0 #b9b9b9;
+  }
+}
+
+#breaking-bad {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 5em;
+  transform: none;
+}
+
+#breaking-bad.closed {
+  filter: blur(25px);
+  transform: scale(1.5);
   opacity: 0;
   visibility: hidden;
 }
 
-#login-step-2 {
+#breaking-bad .bad-header {
+  font-size: 2em;
+  color: #0259ff;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 2.5em;
+}
 
+#breaking-bad .bad-sub-header {
+  font-size: 1em;
+  font-weight: 600;
+  color: #353648;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+#breaking-bad-actors {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 400px;
+  margin: 0 auto;
+}
+
+#breaking-bad .actor {
+  position: relative;
+  flex: 1;
+  margin: 30px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.25), 0 4px 8px rgba(0, 0, 0, 0.22);
+  visibility: visible;
+  transform: scale(1);
+  filter: none;
+  opacity: 1;
+  transition: 3s filter, 2.5s opacity, transform 2s, position 3s;
+}
+
+#breaking-bad .actor.disappear,
+#breaking-bad .actor.selectedCharecter {
+  filter: blur(500px);
+  opacity: 0;
+  visibility: hidden;
+}
+
+#breaking-bad .actor.disappear {
+  transform: scale(0.5) rotate(180deg);
+}
+
+#breaking-bad .actor.selectedCharecter {
+  transform: scale(2) rotate(360deg);
+}
+
+#breaking-bad .actor:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  transform: scale(1.04);
+}
+
+.actor .gif-holder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+#walter-white .gif-holder {
+  background: url('../images/heisenberg.gif');
+}
+
+#jesse-pinkman .gif-holder {
+  background: url('../images/pinkman.gif');
+}
+
+#normal-user .gif-holder {
+  background: url('../images/thanos-i-will-do-it-myself.gif');
+}
+
+.actor-details {
+  position: absolute;
+  background: #fff;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  color: #303030;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.actor-details h2 {
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+#login,
+#login-step-2 {
+  background: #0259ff;
 }
 
 #login.password-verification-in-progress {
@@ -59,7 +211,7 @@ body * {
   filter: blur(5px);
 }
 
-#login .section-header, 
+#login .section-header,
 #login-step-2 .section-header {
   font-size: 2rem;
   font-weight: 700;
@@ -69,7 +221,7 @@ body * {
   color: #fff;
 }
 
-#login .sub-header, 
+#login .sub-header,
 #login-step-2 .sub-header {
   font-size: 1.5rem;
   margin-bottom: 20px;
@@ -91,7 +243,7 @@ body * {
 }
 
 .info {
-  color: rgba(255,255,255, 0.35);
+  color: rgba(255, 255, 255, 0.35);
   font-size: 0.9rem;
   text-align: right;
   margin-top: 10px;
@@ -103,7 +255,7 @@ body * {
   height: 80px;
   border: none;
   outline: none;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   font-size: 1.5rem;
   text-indent: 30px;
 }
@@ -112,7 +264,7 @@ body * {
   position: relative;
   width: 900px;
   height: 100%;
-  margin:  0 auto;
+  margin: 0 auto;
   transform: scale(1.3);
   filter: blur(15px);
   opacity: 0;
@@ -132,17 +284,44 @@ body * {
   pointer-events: none;
 }
 
+/* #edit-form {
+  position: absolute;
+  width: 500px;
+  padding: 20px;
+  top: calc(5em + 25px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #3e3e3e;
+  box-shadow: 0 0 0 2px #0259ff;
+  border-radius: 0px 0px 4px 4px;
+  z-index: 1;
+}
+
+#edit-form.close {
+  top: -100%;
+}
+
+#edit-form header {
+  font-weight: bold;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+} */
+
 #grocery-list-wrapper .navigation {
-  position: sticky;
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   height: 5em;
   padding: 0 20px;
+  background: #fff;
   box-shadow: 0px 2px 0 0 #0259ff;
+  z-index: 2;
 }
 
-#grocery-list-wrapper .navigation #current-user-name, 
+#grocery-list-wrapper .navigation #current-user-name,
 #grocery-list-wrapper .navigation #settings-area {
   position: relative;
   flex: 1;
@@ -174,6 +353,7 @@ body * {
   bottom: 10px;
   width: 100%;
   height: auto;
+  background: #fff;
   flex-direction: row;
   justify-content: center;
 }
@@ -371,7 +551,14 @@ ul#groceries-list {
   background: #fff;
   overflow: hidden;
   z-index: 1;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.modal.close {
+  transform: translate(-50%, -50%) scale(0.5);
+  filter: blur(15px);
+  opacity: 0;
+  visibility: hidden;
 }
 
 .modal .modal-header {
@@ -381,9 +568,12 @@ ul#groceries-list {
   width: 100%;
   padding: 20px;
   font-size: 1rem;
-  background: #0095ff;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #0072ff, #0095ff);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #0072ff, #0095ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #0095ff;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #0072ff, #0095ff);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #0072ff, #0095ff);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: #fff;
 }
 
@@ -413,6 +603,11 @@ ul#groceries-list {
   padding-top: 6em;
 }
 
+#edit-form {
+  padding-top: 5em;
+}
+
+#edit-form .edit-item-form label,
 #user-settings .settings-form label {
   text-transform: uppercase;
   margin-top: 10px;
@@ -423,6 +618,7 @@ ul#groceries-list {
   color: #404040;
 }
 
+#edit-form .form-control,
 #user-settings .form-control {
   border: 0;
   font-size: initial;
@@ -436,16 +632,25 @@ ul#groceries-list {
   margin: 10px 0;
 }
 
+#edit-form .form-control {
+  padding-right: 15px;
+}
+
+#edit-form .form-control:focus,
 #user-settings .form-control:focus {
   box-shadow: 0 0 0 2px #0058ff;
 }
 
+#edit-form .form-control.has-error,
+#edit-form .form-control.has-error:focus,
 #user-settings .form-control.has-error,
 #user-settings .form-control.has-error:focus {
   box-shadow: 0 0 0 2px #e52020;
   background: #fff6f6;
 }
 
+#edit-form .form-control.no-error,
+#edit-form .form-control.no-error:focus,
 #user-settings .form-control.no-error,
 #user-settings .form-control.no-error:focus {
   box-shadow: 0 0 0 2px green;
@@ -478,6 +683,7 @@ ul#groceries-list {
   transform: translate(-50%, -50%) scale(1);
 }
 
+#edit-item-button,
 #user-settings .save-password {
   background: #0095ff;
   background: -webkit-linear-gradient(to left, #0072ff, #0095ff);
@@ -493,13 +699,21 @@ ul#groceries-list {
   cursor: pointer;
 }
 
-#user-settings .save-password:hover {
+#edit-item-button:disabled,
+#user-settings .save-password:disabled {
+  background: #b8dbf5;
+  cursor: not-allowed;
+}
+
+#edit-item-button:not(:disabled):hover,
+#user-settings .save-password:not(:disabled):hover {
   background: #fff;
   color: #0095ff;
   box-shadow: 0 0 0 2px #0095ff;
 }
 
-#user-settings .save-password:active {
+#edit-item-button:not(:disabled):active,
+#user-settings .save-password:not(:disabled):active {
   transform: scale(0.9)
 }
 
@@ -543,7 +757,7 @@ ul#groceries-list {
 }
 
 #menu-trigger:hover span.dots .dot {
-  background:  #fff;
+  background: #fff;
 }
 
 ul#settings-menu {
@@ -554,7 +768,7 @@ ul#settings-menu {
   overflow: hidden;
   transform-origin: bottom right;
   transform: scale(0);
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 ul#settings-menu.opened {
@@ -594,10 +808,48 @@ ul#settings-menu.opened {
     border-radius: 0;
     box-shadow: none;
   }
-
-  #login.close, #login-step-2.close, #user-settings.close {
+  #login.close,
+  #login-step-2.close,
+  #user-settings.close {
     transform: scale(0.5);
   }
+}
+
+/* copied from https://github.com/animate-css/animate.css */
+
+@keyframes pulse {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.go-back {
+  font-size: 2em;
+  color: #fff;
+  padding: 10px 15px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.go-back:hover {
+  opacity: 1;
+}
+
+.pulse {
+  animation-name: pulse;
+  animation-timing-function: cubic-bezier(1, -0.01, 0, 1.01);
+  animation-duration: 0.5s;
 }
 
 @media only screen and (max-width: 768px) {}
@@ -606,24 +858,19 @@ ul#settings-menu.opened {
   #grocery-list-wrapper {
     width: 100%;
   }
-
-  #grocery-list-wrapper #new-item-form {
-    padding: 0 10px;
+  #new-item-form {
+    padding: 10px;
   }
-
   #new-item-form .textarea-wrap {
     padding-right: 3px;
     max-width: 80%;
   }
-
   input#item-name {
     max-width: 70%;
   }
-
   input#item-quantity {
     max-width: 30%
   }
-
   ul#settings-menu {
     right: 15px;
   }
