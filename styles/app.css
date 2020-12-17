@@ -787,34 +787,6 @@ ul#settings-menu.opened {
   background: #0058ff;
   color: #fff;
 }
-
-@media only screen and (max-width: 320px) {}
-
-@media only screen and (max-width: 480px) {
-  #grocery-list-wrapper .navigation #current-user-name {
-    font-size: 1rem;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .modal {
-    width: 100% !important;
-    height: 100% !important;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    transform: none;
-    border-radius: 0;
-    box-shadow: none;
-  }
-  #login.close,
-  #login-step-2.close,
-  #user-settings.close {
-    transform: scale(0.5);
-  }
-}
-
 /* copied from https://github.com/animate-css/animate.css */
 
 @keyframes pulse {
@@ -852,7 +824,59 @@ ul#settings-menu.opened {
   animation-duration: 0.5s;
 }
 
-@media only screen and (max-width: 768px) {}
+@media only screen and (max-width: 320px) {}
+
+@media only screen and (max-width: 480px) {
+  #grocery-list-wrapper .navigation #current-user-name {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    position: relative;
+  }
+
+  #breaking-bad-actors {
+    flex-direction: column;
+    height: auto !important;
+    width: calc(100% - 50px);
+  }
+
+  #breaking-bad .actor {
+    padding: 0;
+  }
+
+  #breaking-bad .actor .gif-holder {
+    position: relative;
+    width: 100%;
+    height: 400px;
+  }
+
+  .modal {
+    width: 100% !important;
+    height: 100% !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transform: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  #login.close,
+  #login-step-2.close,
+  #user-settings.close {
+    transform: scale(0.5);
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  #breaking-bad .actor {
+    margin: 15px;
+  }
+}
 
 @media only screen and (max-width: 900px) {
   #grocery-list-wrapper {

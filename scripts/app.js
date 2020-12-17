@@ -297,6 +297,12 @@ function App() {
   $this.toggleSettingsUI = (toggle) => {
     switch (toggle) {
       case "open":
+        const currentUser = $this.currentUser();
+        if (currentUser && currentUser.password) {
+          document.getElementById("old-password-prompt").classList.remove('hide')
+        } else {
+          document.getElementById("old-password-prompt").classList.add('hide')
+        }
         userSettingsElement.classList.remove("close");
         groceryScreen.classList.add("blurred")
         break;
@@ -314,7 +320,14 @@ function App() {
     setTimeout(function () {
       targetElement.classList.remove("pulse");
     }, 1000)
+  };
+
+  // Validations
+
+  $this.validateChangePasswordForm = () => {
+    
   }
+
 };
 
 window.addEventListener("load", function() {
@@ -547,8 +560,8 @@ window.addEventListener("load", function() {
           }, 90)
           break;
       }
-    })
-  })
+    });
+  });
 
   setTimeout(function () {
     document.body.classList.remove('content-is-loading');

@@ -11,7 +11,7 @@
     <div class="loader"></div>
   </div>
   <div id="breaking-bad" class="closed">
-    <h2 class="bad-header">Welcome to Simple Grocery list app</h2>
+    <h2 class="bad-header">Welcome to <br>Simple Grocery list app</h2>
     <h3 class="bad-sub-header">Please select a charecter to continue.</h3>
     <div id="breaking-bad-actors">
       <div class="actor" id="walter-white" data-username="Walter White">
@@ -64,6 +64,14 @@
     </header>
     <h2 class="sub-header">Please update your password, You'll be prompted for password from next login attempt.</h2>
     <div class="settings-form">
+      <label>Current Password</label>
+      <div class="form-wrap" id="old-password-prompt">
+        <input type="password" id="current-password" class="form-control">
+        <div class="icon password-peek" data-status="closed">
+          <span class="emoji open">&#128064;</span>
+          <span class="emoji closed show">&#128529;</span>
+        </div>
+      </div>
       <label>Password</label>
       <div class="form-wrap">
         <input type="password" id="settings-password" class="form-control">
