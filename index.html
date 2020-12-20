@@ -48,8 +48,9 @@
     <div class="form">
       <input type="text" id="username" autofocus="true" autocomplete="off" class="form-control">
       <span class="icon">&crarr;</span>
+      <span class="error-message"></span>
     </div>
-    <span class="info pull-right">Press Enter &crarr; to submit.</span>
+    <span class="info">Press Enter &crarr; to submit.</span>
   </section>
   <section id="login-step-2" class="modal close">
     <span class="go-back" data-target="login">&times;</span>
@@ -58,8 +59,9 @@
     <div class="form">
       <input type="password" id="password" class="form-control">
       <span class="icon">&crarr;</span>
+      <span class="error-message"></span>
     </div>
-    <span class="info pull-right">Press Enter &crarr; to submit.</span>
+    <span class="info">Press Enter &crarr; to submit.</span>
   </section>
   <section id="user-settings" class="modal close">
     <div class="alert">
@@ -137,11 +139,9 @@
         </ul>
       </div>
     </div>
-    <!-- <div id="batch-actions">
-
-    </div> -->
     <ul id="groceries-list">
       <li class="empty-message">You know you can add an item from down below. right there..👇</li>
+      <li id="remaining-items-wrapper">Remaining Items - <span class="remaining-items"></span>/<span class="total-items"></span></li>
     </ul>
     <div id="new-item-form">
       <div class="alert">

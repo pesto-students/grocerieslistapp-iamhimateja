@@ -1,4 +1,3 @@
-// TODO: Validations
 "use strict";
 const randomKey = () => Math.random()
   .toString(36)
@@ -25,6 +24,23 @@ const decodePassword = (password) => {
   return window.atob(password);
 }
 
+const updateActors = () => {
+  $select("multiple-elements", ".actor").forEach(element => {
+    const user = app.findUser(element.dataset.username);
+    const currentUser = app.currentUser();
+    if (user) {
+      if(user.password != encodePassword(element.querySelector('.charecter-password').innerText)) {
+        element.querySelector('.charecter-password').innerText = "(changed)"
+      }
+      if (currentUser) {
+        if (currentUser.name == user.name) {
+          element.classList.add("selectedCharecter");
+        }
+      }
+    }
+  });
+}
+
 function App() {
   let $this = this;
   const MAX_GROCERY_ITEMS_COUNT = 5;
@@ -46,10 +62,14 @@ function App() {
             });
           }
         });
-        localStorage.setItem("users", JSON.stringify(groupedData));
+        $this.updateDatabase(groupedData);
       });
     return localStorage.getItem("users");
   };
+
+  $this.updateDatabase = (data) => {
+    localStorage.setItem("users", JSON.stringify(data));
+  }
   
   $this.users = () => JSON.parse(localStorage.getItem("users")) || {};
   
@@ -70,7 +90,7 @@ function App() {
   // Validations
 
   $this.validateGroceryItemsCount = () => {
-    return Object.keys($this.currentUser().groceryList).length < MAX_GROCERY_ITEMS_COUNT
+    return $this.totalItemCount() < MAX_GROCERY_ITEMS_COUNT
   }
 
   $this.isItemNameExists = (itemName, itemKey = "") => {
@@ -106,11 +126,11 @@ function App() {
       let currentUser = usersList[$this.currentUser().name];
       let itemKey = randomKey();
       usersList[currentUser.name].groceryList[itemKey] = itemObject;
-      localStorage.setItem("users", JSON.stringify(usersList));
+      $this.updateDatabase(usersList);
       $this.addGroceryItemToUIAndBindEvents(itemKey, itemObject);
       $this.showNotification("Successfully added the item.");
     } else {
-      app.showValidationMessage("#new-item-form", `Items limit exceeded, You can only ${MAX_GROCERY_ITEMS_COUNT} items for now.`);
+      app.showValidationMessage("#new-item-form", `Items limit exceeded, You can only add ${MAX_GROCERY_ITEMS_COUNT} items to the list.`);
     }
   };
   
@@ -120,7 +140,7 @@ function App() {
     let groceryItem = usersList[currentUser.name].groceryList[itemKey];
     groceryItem.itemName = itemName;
     groceryItem.quantity = itemQuantity;
-    localStorage.setItem("users", JSON.stringify(usersList));
+    $this.updateDatabase(usersList);
     $this.updateGroceryItemUI(itemKey)
     $this.showNotification("Successfully updated the item.");
   };
@@ -133,7 +153,7 @@ function App() {
     if (groceryItem) {
       groceryItem.completed = checked;
     }
-    localStorage.setItem("users", JSON.stringify(usersList));
+    $this.updateDatabase(usersList);
     $this.showNotification(checked ? "Successfully marked it as completed." : "Item marked as incomplete.");
   };
   
@@ -145,10 +165,22 @@ function App() {
     if (groceryItem) {
       delete currentUser.groceryList[itemKey];
     }
+    $this.updateDatabase(usersList);
     $this.deleteGroceryItemFromUI(itemKey);
-    localStorage.setItem("users", JSON.stringify(usersList));
     $this.showNotification("Grocery item deleted.");
   };
+
+  $this.totalItemCount = () => {
+    return Object.keys($this.currentUser().groceryList).length;
+  }
+
+  $this.remainingItemCount = () => {
+    return (MAX_GROCERY_ITEMS_COUNT - $this.totalItemCount())
+  }
+
+  $this.maxGroceryItems = () => {
+    return MAX_GROCERY_ITEMS_COUNT;
+  }
   
   $this.logIn = (username) => {
     sessionStorage.setItem("currentUser", username);
@@ -168,7 +200,7 @@ function App() {
     let usersList = $this.users();
     let currentUser = usersList[$this.currentUser().name];
     currentUser.password = encodePassword(password);
-    localStorage.setItem("users", JSON.stringify(usersList));
+    $this.updateDatabase(usersList);
     $this.toggleSettingsUI("close")
     $this.showNotification("Password updated successfully.");
   }
@@ -180,7 +212,7 @@ function App() {
       password: false,
       groceryList: {}
     };
-    localStorage.setItem("users", JSON.stringify(data));
+    $this.updateDatabase(data);
     $this.logIn(username);
     return $this.findUser[username];
   };
@@ -188,7 +220,7 @@ function App() {
   $this.addGroceryItemsToUI = () => {
     const groceryList = $this.currentUser()
       .groceryList;
-    const groceryListItems = groceriesListElement.querySelectorAll('li:not(.empty-message)');
+    const groceryListItems = groceriesListElement.querySelectorAll('li:not(.empty-message):not(#remaining-items-wrapper)');
     if (groceryListItems) {
       groceryListItems.forEach(listElement => listElement.parentNode.removeChild(listElement));
     }
@@ -250,6 +282,7 @@ function App() {
       .addEventListener("click", function (event) {
         const itemKey = this.dataset.id;
         $this.deleteGroceryItem(itemKey);
+        $select("single-element", "#remaining-items-wrapper .remaining-items").innerText = $this.remainingItemCount();
       });
     
     listElement.querySelector(".btn.edit")
@@ -334,19 +367,15 @@ function App() {
   
   $this.toggleEmptyMessage = () => {
     const emptyMessageDiv = groceriesListElement.querySelector("li.empty-message");
-    emptyMessageDiv.classList.toggle("hide", (groceriesListElement.querySelectorAll("li:not(.empty-message)")
-      .length > 0))
+    const remainingItemsDiv = groceriesListElement.querySelector("li#remaining-items-wrapper");
+    emptyMessageDiv.classList.toggle("hide", ($this.totalItemCount() > 0))
+    remainingItemsDiv.classList.toggle("hide", ($this.totalItemCount() == 0))
   }
   
   $this.toggleGroceryScreen = (toggle) => {
-    switch (toggle) {
-    case "open":
-      groceryScreen.classList.add("show");
-      break;
-    case "close":
-      groceryScreen.classList.remove("show");
-      break;
-    }
+    groceryScreen.classList.toggle("show", toggle == "open");
+    $select("single-element", "#remaining-items-wrapper .remaining-items").innerText = app.remainingItemCount();
+    $select("single-element", "#remaining-items-wrapper .total-items").innerText = $this.maxGroceryItems()
   };
   
   $this.toggleSettingsUI = (toggle) => {
@@ -364,6 +393,12 @@ function App() {
     case "close":
       userSettingsElement.classList.add("close");
       groceryScreen.classList.remove("blurred")
+      userSettingsElement.querySelectorAll(".form-control.has-error").forEach(element => {
+        element.classList.remove('has-error')
+      });
+      $select("multiple-elements", "#current-password, #settings-password, #settings-password-confirmation").forEach(element => {
+        element.value = ''
+      });
       break;
     }
   };
@@ -417,12 +452,13 @@ window.addEventListener("load", function () {
     .addEventListener("keyup", function (event) {
       if (event.keyCode === 13) {
         if (this.value.length == 0) {
-          console.log("Name is not valid");
+          this.parentElement.lastElementChild.innerHTML = "Please enter your name"
+          this.parentElement.classList.add("has-error")
         } else {
+          this.parentElement.classList.remove("has-error")
           const foundUser = app.findUser(this.value);
           if (foundUser) {
             if (foundUser.password) {
-              console.log("password need to continue");
               app.togglePasswordPromptUI(this.value, "open")
             } else {
               app.logIn(this.value);
@@ -442,8 +478,10 @@ window.addEventListener("load", function () {
     .addEventListener("keyup", function (event) {
       if (event.keyCode === 13) {
         if (this.value.length == 0) {
-          console.log("Please enter the password");
+          this.parentElement.lastElementChild.innerHTML = "Please enter your password"
+          this.parentElement.classList.add("has-error")
         } else {
+          this.parentElement.classList.remove("has-error")
           const userInputPassword = this.value;
           const attemptingUserElement = passwordPromptContainer.querySelector(".attempter-user-name");
           const attemptingUser = attemptingUserElement.dataset.user;
@@ -454,8 +492,10 @@ window.addEventListener("load", function () {
               app.logIn(user.name);
               app.toggleLoginScreen("close");
               app.toggleGroceryScreen("open");
+              this.parentElement.classList.remove("has-error")
             } else {
-              console.log('Incorrect');
+              this.parentElement.lastElementChild.innerHTML = "Your password is incorrect"
+              this.parentElement.classList.add("has-error")
             }
           }
         }
@@ -495,12 +535,13 @@ window.addEventListener("load", function () {
           if (app.isValidPassword(oldPassword.value)) {
             if (newPassword.value == confirmationPassword.value) {
               app.updateUserPassword(newPassword.value);
+              updateActors()
               app.toggleSettingsUI("close");
             } else {
               app.showValidationMessage("#user-settings", "Your entered password and confirmation password doesn't match");
             }
           } else {
-            app.showValidationMessage("#user-settings", "The Current password you entered is invalid.");
+            app.showValidationMessage("#user-settings", "The Current password you entered is incorrect.");
           }
         } else {
           if (newPassword.value == confirmationPassword.value) {
@@ -540,6 +581,7 @@ window.addEventListener("load", function () {
         app.showValidationMessage("#new-item-form", "Item is already exists in your grocery list");
       } else {
         app.addGroceryItem(inputValueElement.value, itemQuantityElement.value);
+        $select("single-element", "#remaining-items-wrapper .remaining-items").innerText = app.remainingItemCount();
         inputValueElement.value = "";
         itemQuantityElement.value = 1;
       }
@@ -677,6 +719,7 @@ window.addEventListener("load", function () {
   
   setTimeout(function () {
     document.body.classList.remove('content-is-loading');
+
     if (app.currentUser()) {
       app.toggleLoginScreen("close");
       app.toggleBreakingBadScreen('close')

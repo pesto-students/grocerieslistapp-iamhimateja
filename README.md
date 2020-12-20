@@ -2,8 +2,4 @@ Grocery List App by Himateja
 
 https://breaking-bad-grocery-list-app.netlify.app/
 
-Pending for complete.
-1. Password Updation
-2. Session Timeout
-3. Validations
-3. Responsive modifications for newly added features
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
