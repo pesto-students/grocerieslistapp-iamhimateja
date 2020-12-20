@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Grocery list app</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="styles/app.css">
+</head>
+<body class="content-is-loading">
+  <div class="loading-wrap">
+    <div class="loader"></div>
+  </div>
+  <div class="notification">
+    <span class="message"></span>
+    <span class="close-icon"></span>
+  </div>
+  <div id="breaking-bad" class="closed">
+    <h2 class="bad-header">Welcome to <br>Simple Grocery list app</h2>
+    <h3 class="bad-sub-header">Please select a charecter to continue.</h3>
+    <div id="breaking-bad-actors">
+      <div class="actor" id="walter-white" data-username="Walter White">
+        <div class="gif-holder"></div>
+        <div class="actor-details">
+          <h2>Walter White</h2>
+          <span>(Password: <span class="charecter-password">heisenberg</span>)</span>
+        </div>
+      </div>
+      <div class="actor" id="jesse-pinkman" data-username="Jesse Pinkman">
+        <div class="gif-holder"></div>
+        <div class="actor-details">
+          <h2>Jesse Pinkman</h2>
+          <span>(Password: <span class="charecter-password">biyatch</span>)</span>
+        </div>
+      </div>
+      <div class="actor" id="normal-user">
+        <div class="gif-holder"></div>
+        <div class="actor-details">
+          <h2>I'll do it myself.</h2>
+          <span>(Password: You can set it inside)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section id="login" class="modal close">
+    <span class="go-back" data-target="home">&times;</span>
+    <h2 class="section-header">Grocery List</h2>
+    <h5 class="sub-header">Please enter your name to continue</h5>
+    <div class="form">
+      <input type="text" id="username" autofocus="true" autocomplete="off" class="form-control">
+      <span class="icon">&crarr;</span>
+      <span class="error-message"></span>
+    </div>
+    <span class="info">Press Enter &crarr; to submit.</span>
+  </section>
+  <section id="login-step-2" class="modal close">
+    <span class="go-back" data-target="login">&times;</span>
+    <h2 class="section-header">Hi <span class="attempter-user-name"></span></h2>
+    <h5 class="sub-header">Your grocery list is password protected, please enter your password to continue</h5>
+    <div class="form">
+      <input type="password" id="password" class="form-control">
+      <span class="icon">&crarr;</span>
+      <span class="error-message"></span>
+    </div>
+    <span class="info">Press Enter &crarr; to submit.</span>
+  </section>
+  <section id="user-settings" class="modal close">
+    <div class="alert">
+      <span class="validation-message"></span>
+      <span class="close-icon">&times;</span>
+    </div>
+    <header class="modal-header">
+      Settings
+      <span class="close-icon" id="close-user-settings">&times;</span>
+    </header>
+    <h2 class="sub-header">Please update your password, You'll be prompted for password from next login attempt.</h2>
+    <form class="settings-form">
+      <label>Current Password</label>
+      <div class="form-wrap" id="old-password-prompt">
+        <input type="password" id="current-password" class="form-control" placeholder="(unchanged)">
+        <div class="icon password-peek" data-status="closed">
+          <span class="emoji open">&#128064;</span>
+          <span class="emoji closed show">&#128529;</span>
+        </div>
+      </div>
+      <label>Password</label>
+      <div class="form-wrap">
+        <input type="password" id="settings-password" class="form-control">
+        <div class="icon password-peek" data-status="closed">
+          <span class="emoji open">&#128064;</span>
+          <span class="emoji closed show">&#128529;</span>
+        </div>
+      </div>
+      <label>Confirmation</label>
+      <div class="form-wrap">
+        <input type="password" id="settings-password-confirmation" class="form-control">
+        <div class="icon password-peek" data-status="closed">
+          <span class="emoji open">&#128064;</span>
+          <span class="emoji closed show">&#128529;</span>
+        </div>
+      </div>
+      <button type="button" id="save-password" class="text-right">Save Password</button>
+    </form>
+  </section>
+  <div id="edit-form" class="modal close">
+    <header class="modal-header">
+      Edit item
+      <span class="close-icon" id="close-item-edit-form">&times;</span>
+    </header>
+    <div class="alert">
+      <span class="validation-message"></span>
+      <span class="close-icon">&times;</span>
+    </div>
+    <form class="edit-item-form">
+      <label>Item name</label>
+      <input type="text" class="form-control" id="edit-item-name-input" placeholder="Type the name of the item">
+      <label>Quantity</label>
+      <input type="number" class="form-control" id="edit-item-quantity-input" placeholder="Quantity">
+      <button id="edit-item-button" type="button" class="text-right">Update</button>
+    </form>
+  </div>
+  <section id="grocery-list-wrapper">
+    <div class="navigation">
+      <span id="current-user-name"></span>
+      <div id="settings-area" class="text-right">
+        <button id="menu-trigger">
+          <span class="dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </span>
+        </button>
+        <ul id="settings-menu">
+          <li>
+            <a href="javascript:void(0)" id="change-password">Change Password</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" id="logout" title="Logout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ul id="groceries-list">
+      <li class="empty-message">You know you can add an item from down below. right there..👇</li>
+      <li id="remaining-items-wrapper">Remaining Items - <span class="remaining-items"></span>/<span class="total-items"></span></li>
+    </ul>
+    <div id="new-item-form">
+      <div class="alert">
+        <span class="validation-message"></span>
+        <span class="close-icon">&times;</span>
+      </div>
+      <div class="textarea-wrap">
+        <input type="text" id="item-name" placeholder="Type the name of the item" autocomplete="off">
+        <input type="number" id="item-quantity" placeholder="Quantity" autocomplete="off" value="1" min="1" max="100">
+        <button id="add-item">
+          <span class="icon">&times;</span>
+        </button>
+      </div>
+    </div>
+  </section>
+  <script type="text/javascript" src="scripts/app.js"></script>
+</body>
+</html>

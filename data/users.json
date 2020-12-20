@@ -1,0 +1,59 @@
+[
+  {
+    "name": "Walter White",
+    "password": "aGVpc2VuYmVyZw==",
+    "groceryList": [
+      {
+        "itemName":"Polish Remover for Acetone",
+        "quantity": 100,
+        "completed": false
+      }, 
+      {
+        "itemName":"Household Cleaners (Anhydrous ammonia)",
+        "quantity": 100,
+        "completed": false
+      }, 
+      {
+        "itemName":"Wet-on-wet Dry cleaners (For Hydrochloric acid)",
+        "quantity": 50,
+        "completed": false
+      }, 
+      {
+        "itemName":"Castrol Brake Fluid (Toluene)",
+        "quantity": 100,
+        "completed": false
+      }, 
+      {
+        "itemName":"Diamond Long Reach Matches 75 Count (For Phosphorous)",
+        "quantity": 250,
+        "completed": false
+      }
+    ]
+  },
+  {
+    "name": "Jesse Pinkman",
+    "password": "Yml5YXRjaA==",
+    "groceryList": [
+      {
+        "itemName":"Perfumes, Lipsticks etc (for Ether)",
+        "quantity": 50,
+        "completed": false
+      }, 
+      {
+        "itemName":"Air conditioning gas replacement (for Freon)",
+        "quantity": 500,
+        "completed": false
+      }, 
+      {
+        "itemName":"Redbull Energy drink",
+        "quantity": 2000,
+        "completed": false
+      }, 
+      {
+        "itemName":"Odyssey PC680 Battery (For Lithium)",
+        "quantity": 10,
+        "completed": false
+      }
+    ]
+  }
+]
