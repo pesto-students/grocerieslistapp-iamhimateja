@@ -10,6 +10,10 @@
   <div class="loading-wrap">
     <div class="loader"></div>
   </div>
+  <div class="notification">
+    <span class="message"></span>
+    <span class="close-icon"></span>
+  </div>
   <div id="breaking-bad" class="closed">
     <h2 class="bad-header">Welcome to <br>Simple Grocery list app</h2>
     <h3 class="bad-sub-header">Please select a charecter to continue.</h3>
@@ -58,15 +62,19 @@
     <span class="info pull-right">Press Enter &crarr; to submit.</span>
   </section>
   <section id="user-settings" class="modal close">
+    <div class="alert">
+      <span class="validation-message"></span>
+      <span class="close-icon">&times;</span>
+    </div>
     <header class="modal-header">
       Settings
       <span class="close-icon" id="close-user-settings">&times;</span>
     </header>
     <h2 class="sub-header">Please update your password, You'll be prompted for password from next login attempt.</h2>
-    <div class="settings-form">
+    <form class="settings-form">
       <label>Current Password</label>
       <div class="form-wrap" id="old-password-prompt">
-        <input type="password" id="current-password" class="form-control">
+        <input type="password" id="current-password" class="form-control" placeholder="(unchanged)">
         <div class="icon password-peek" data-status="closed">
           <span class="emoji open">&#128064;</span>
           <span class="emoji closed show">&#128529;</span>
@@ -88,58 +96,65 @@
           <span class="emoji closed show">&#128529;</span>
         </div>
       </div>
-      <button class="save-password text-right">Save Password</button>
-    </div>
+      <button type="button" id="save-password" class="text-right">Save Password</button>
+    </form>
   </section>
   <div id="edit-form" class="modal close">
     <header class="modal-header">
       Edit item
       <span class="close-icon" id="close-item-edit-form">&times;</span>
     </header>
-    <div class="edit-item-form">
+    <div class="alert">
+      <span class="validation-message"></span>
+      <span class="close-icon">&times;</span>
+    </div>
+    <form class="edit-item-form">
       <label>Item name</label>
       <input type="text" class="form-control" id="edit-item-name-input" placeholder="Type the name of the item">
       <label>Quantity</label>
       <input type="number" class="form-control" id="edit-item-quantity-input" placeholder="Quantity">
-      <button id="edit-item-button" class="text-right">Update</button>
-    </div>
+      <button id="edit-item-button" type="button" class="text-right">Update</button>
+    </form>
   </div>
   <section id="grocery-list-wrapper">
     <div class="navigation">
       <span id="current-user-name"></span>
       <div id="settings-area" class="text-right">
-        <span id="logout" class="icon" title="Logout">&#9211;</span>
+        <button id="menu-trigger">
+          <span class="dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </span>
+        </button>
+        <ul id="settings-menu">
+          <li>
+            <a href="javascript:void(0)" id="change-password">Change Password</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" id="logout" title="Logout">Logout</a>
+          </li>
+        </ul>
       </div>
     </div>
+    <!-- <div id="batch-actions">
+
+    </div> -->
     <ul id="groceries-list">
       <li class="empty-message">You know you can add an item from down below. right there..👇</li>
     </ul>
     <div id="new-item-form">
+      <div class="alert">
+        <span class="validation-message"></span>
+        <span class="close-icon">&times;</span>
+      </div>
       <div class="textarea-wrap">
         <input type="text" id="item-name" placeholder="Type the name of the item" autocomplete="off">
-        <input type="number" id="item-quantity" placeholder="Quantity" autocomplete="off" value="1" min="1">
+        <input type="number" id="item-quantity" placeholder="Quantity" autocomplete="off" value="1" min="1" max="100">
         <button id="add-item">
           <span class="icon">&times;</span>
         </button>
       </div>
-      <button id="menu-trigger">
-        <span class="dots">
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-        </span>
-      </button>
-      <ul id="settings-menu">
-        <li>
-          <a href="#0" id="change-password">Change Password</a>
-        </li>
-        <li>
-          <a href="#0">Delete all completed items</a>
-        </li>
-        <li>
-          <a href="#0">Delete all items</a>
-        </li>
-      </ul>
     </div>
   </section>
   <script type="text/javascript" src="scripts/app.js"></script>

@@ -14,8 +14,9 @@ body * {
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+  font-kerning: none;
   box-sizing: border-box;
-  transition: all 0.5s cubic-bezier(1, -0.01, 0, 1.01);
+  transition: all 0.3s cubic-bezier(1, -0.01, 0, 1.01);
 }
 
 
@@ -136,22 +137,22 @@ body * {
   transform: scale(1);
   filter: none;
   opacity: 1;
-  transition: 3s filter, 2.5s opacity, transform 2s, position 3s;
+  transition: 1.5s filter, 0.8s opacity, transform 1s, position 1.5s;
 }
 
 #breaking-bad .actor.disappear,
 #breaking-bad .actor.selectedCharecter {
-  filter: blur(500px);
+  filter: blur(50px);
   opacity: 0;
   visibility: hidden;
 }
 
 #breaking-bad .actor.disappear {
-  transform: scale(0.5) rotate(180deg);
+  transform: scale(0.5);
 }
 
 #breaking-bad .actor.selectedCharecter {
-  transform: scale(2) rotate(360deg);
+  transform: scale(2);
 }
 
 #breaking-bad .actor:hover {
@@ -377,6 +378,7 @@ body * {
 input#item-name {
   margin-right: 2px;
   flex: 2;
+  box-shadow: 3px 0 0 0 #fff;
 }
 
 input#item-quantity {
@@ -456,7 +458,7 @@ ul#groceries-list {
 
 #groceries-list label span {
   margin-left: 10px;
-  width: 70%;
+  max-width: 80%;
 }
 
 #groceries-list label span.item-name {
@@ -684,7 +686,7 @@ ul#groceries-list {
 }
 
 #edit-item-button,
-#user-settings .save-password {
+#user-settings #save-password {
   background: #0095ff;
   background: -webkit-linear-gradient(to left, #0072ff, #0095ff);
   background: linear-gradient(to left, #0072ff, #0095ff);
@@ -700,26 +702,27 @@ ul#groceries-list {
 }
 
 #edit-item-button:disabled,
-#user-settings .save-password:disabled {
+#user-settings #save-password:disabled {
   background: #b8dbf5;
   cursor: not-allowed;
 }
 
 #edit-item-button:not(:disabled):hover,
-#user-settings .save-password:not(:disabled):hover {
+#user-settings #save-password:not(:disabled):hover {
   background: #fff;
   color: #0095ff;
   box-shadow: 0 0 0 2px #0095ff;
 }
 
 #edit-item-button:not(:disabled):active,
-#user-settings .save-password:not(:disabled):active {
+#user-settings #save-password:not(:disabled):active {
   transform: scale(0.9)
 }
 
 #menu-trigger {
   position: relative;
   width: 50px;
+  height: 50px;
   border: 0;
   background: #fff;
   box-shadow: 0 0 0 3px #0259ff;
@@ -762,13 +765,15 @@ ul#groceries-list {
 
 ul#settings-menu {
   position: absolute;
-  top: -150px;
+  top: 60px;
   right: 0;
   border-radius: 3px;
+  background: #fff;
   overflow: hidden;
-  transform-origin: bottom right;
+  transform-origin: top right;
   transform: scale(0);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 
+              0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 ul#settings-menu.opened {
@@ -780,7 +785,9 @@ ul#settings-menu.opened {
   display: block;
   text-decoration: none;
   color: #333;
-  font-size: 1.03em;
+  font-weight: normal;
+  font-size: 12px;
+  text-align: left;
 }
 
 #settings-menu a:hover {
@@ -824,16 +831,126 @@ ul#settings-menu.opened {
   animation-duration: 0.5s;
 }
 
+#new-item-form .alert,
+#edit-form .alert,
+#user-settings .alert {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 15px;
+  padding-right: 50px;
+  border-radius: 3px;
+  background: #b9251c;
+  color: #fff;
+}
+
+#edit-form .alert,
+#user-settings .alert {
+  position: relative;
+  display: none;
+  margin-bottom: 15px;
+}
+
+#edit-form .alert.show,
+#user-settings .alert.show {
+  position: relative;
+  display: block;
+}
+
+#new-item-form .alert.show {
+  bottom: 60px;
+}
+
+.notification {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 15px;
+  padding-right: 50px;
+  border-radius: 3px;
+  font-size: 15px;
+  background: #2d7937;
+  color: #fff;
+  z-index: 10;
+  transform: translateX(calc(100% + 10px))
+}
+
+.notification.show {
+  transform: none;
+}
+
+.alert .close-icon,
+.notification .close-icon {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 50%;
+  cursor: pointer;
+  left: calc(100% - 20px);
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.alert .close-icon:hover,
+.notification .close-icon:hover {
+  opacity: 1;
+}
+
 @media only screen and (max-width: 320px) {}
 
 @media only screen and (max-width: 480px) {
   #grocery-list-wrapper .navigation #current-user-name {
     font-size: 1rem;
   }
+
+  #groceries-list label {
+    margin-bottom: 0;
+  }
+
+  #groceries-list .grocery-list-item .action-buttons {
+    position: relative;
+    text-align: left;
+    margin-left: 25px;
+  }
+
+  #groceries-list label span.item-name {
+    flex: 10;
+  }
+
+  #groceries-list label span {
+    width: unset;
+  }
+
+  .textarea-wrap {
+    flex-direction: column !important;
+  }
+
+  input#item-name {
+    box-shadow: inset 0 -1px 0 0 #d0d0d0;
+  }
+
+  input#item-quantity {
+    box-shadow: none;
+  }
+
+  #add-item {
+    z-index: 2;
+  }
+
+  #item-name:focus, #item-quantity:focus {
+    z-index: 1;
+  }
+
+  #new-item-form .alert.show {
+    bottom: 120px;
+  }
 }
 
 @media only screen and (max-width: 600px) {
-  body {
+  body.breaking-bad-active {
     position: relative;
   }
 
@@ -869,11 +986,19 @@ ul#settings-menu.opened {
   #user-settings.close {
     transform: scale(0.5);
   }
+
+  .grocery-list-item.completed .action-buttons button.btn.edit {
+    display: none;
+  }
 }
 
 
 @media only screen and (max-width: 768px) {
   #breaking-bad .actor {
+    margin: 15px;
+  }
+
+  ul#groceries-list {
     margin: 15px;
   }
 }
@@ -885,16 +1010,24 @@ ul#settings-menu.opened {
   #new-item-form {
     padding: 10px;
   }
-  #new-item-form .textarea-wrap {
-    padding-right: 3px;
-    max-width: 80%;
+
+  #groceries-list label:hover {
+    transform: none;
+    box-shadow: none;
   }
-  input#item-name {
-    max-width: 70%;
+
+  .grocery-list-item:hover {
+    box-shadow: inset 0 -1px 0 0 #0058ff, inset 0 1px 0 0 #0058ff;
+    background: #f3f3f3;
   }
-  input#item-quantity {
-    max-width: 30%
+
+  #new-item-form .alert,
+  #edit-form .alert,
+  #user-settings .alert {
+    width: calc(100% - 20px);
+    margin: 10px;
   }
+
   ul#settings-menu {
     right: 15px;
   }
